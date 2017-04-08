@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数字前面自动补0</title>
+</head>
+<body>
+<p>有时候做一个倒计时效果，60  59  ... 10, 09, 08, 07。  就需要一个小工具函数来处理时间为个位数时自动添加前面的0</p>
+<input type="text" placeholder="请输入当前的数字" id='num'>
+<input type="text" placeholder="请输入最终需要展示的位数" id="size">
+<input type="text" placeholder="补0后的数字" id='result' disabled>
+<script src="../../libs/jquery/jquery.js"></script>
+<script>
+// common.js
+var Utils = {};
+/**
+ * 数字前面自动补0
+ * @param {Number} num 当前的数字
+ * @param {Number} size 最终的位数
+ * @returns {String}
+ */
+Utils.addZeroPre = function (num, size) {
+    var str;
+
+    if (num >= Math.pow(10, size)) {
+        // 如果num本身位数不小于size
+        return num.toString();
+    }
+    str = new Array(size + 1).join('0') + num;
+
+    return str.slice(str.length - size);
+};
+</script>
+<script>
+$(function () {
+    $(':text').on('keyup', function () {
+        var num = parseInt($('#num').val()) || 0;
+        var size = parseInt($('#size').val()) || 0;
+
+        $('#result').val(Utils.addZeroPre(num, size));
+    });
+});
+</script>
+</body>
+</html>
