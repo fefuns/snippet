@@ -31,10 +31,33 @@
             text-align: center;
             line-height: 50px;
         }
+        pre {
+            border: 1px solid #000;
+            background: #eeeeee;
+        }
     </style>
 </head>
 <body>
 <h1>基于display: -webkit-box;的旧版父容器属性（大部分支持iOS 6.0-8.3 安卓2.1-4.4.4）</h1>
+<pre>
+    <code>
+        .flex-box {
+            display: -webkit-box;
+
+            -webkit-box-pack: start 丨 end 丨 center 丨 justify;
+            /* 子元素主轴对齐方式：左对齐（默认）丨 右对齐 丨 居中对齐 丨 左右对齐 */
+
+            -wekbit-box-align: start 丨 end  丨 center 丨 baseline 丨 stretch;
+            /* 子元素交叉轴对齐方式：顶部对齐 丨 底部对齐 丨 居中对齐 丨 子元素基线对齐 丨 自适应父元素尺寸（默认）*/
+
+            -webkit-box-direction: normal 丨 reverse;
+            /* 子元素排列顺序：正常顺序(默认) 丨 反转顺序 */
+
+            -webkit-box-orient: horizontal 丨 vertical 丨 inline-axis 丨 block-axis;
+            /* 子元素排列方式： 从左至右水平（默认） 丨 从上到下纵向  丨 沿行轴排列 丨 沿块轴排列 */
+        }
+    </code>
+</pre>
 <h2>1. -webkit-box-pack属性 定义子元素主轴（水平方向）对齐方式</h2>
 <style>
     .a1 {
@@ -93,7 +116,7 @@
         -webkit-box-align: stretch;
     }
 </style>
-<h3>2-1. -webkit-box-align:start 子元素顶部对齐（默认）</h3>
+<h3>2-1. -webkit-box-align:start 子元素顶部对齐</h3>
 <h4>使用此属性时，父元素有高度效果更直观</h4>
 <div class="flex-box b1" style="height: 200px;">
     <div class="flex-item">1</div>
@@ -121,7 +144,7 @@
     <div class="flex-item">2</div>
     <div class="flex-item" style="line-height: 70px;">3</div>
 </div>
-<h3>2-5. -webkit-box-align:stretch 子元素自适应父元素尺寸</h3>
+<h3>2-5. -webkit-box-align:stretch 子元素自适应父元素尺寸（默认）</h3>
 <h4>使用此属性时，父元素有固定高度。子元素高度不设定固定值效果更直观</h4>
 <div class="flex-box b5" style="height: 200px;">
     <div class="flex-item" style="height: auto;">1</div>
