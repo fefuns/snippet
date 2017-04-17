@@ -31,10 +31,28 @@
             text-align: center;
             line-height: 50px;
         }
+        pre {
+            border: 1px solid #000;
+            background: #eeeeee;
+        }
     </style>
 </head>
 <body>
 <h1>基于display:-webkit-box;旧版子元素属性（大部分支持iOS 6.0-8.3 安卓2.1-4.4.4）</h1>
+<pre>
+    <code>
+        .flex-item {
+            -webkit-box-flex: &lt;number&gt;
+            /* 设定子元素如何分配父元素剩余空间: 默认0，可为浮点数 */
+
+            -wekbit-box-oridinal-group: &lt;integer&gt;
+            /* 设置子元素的显示顺序：默认1，必须为整数 */
+
+            -webkit-box-flex-group:  &lt;integer&gt;
+            /* 设置子元素的所属组：默认1，必须为整数 */
+        }
+    </code>
+</pre>
 <h2>1. -webkit-box-flex: &lt;number&gt; 设置子元素如何分配父容器剩余空间。</h2>
 <style>
     .a1 .flex-item {
