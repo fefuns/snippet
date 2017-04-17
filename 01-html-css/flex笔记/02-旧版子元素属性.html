@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex旧版子元素属性</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="minimal-ui,width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            word-break:break-all;
+        }
+        h1 {
+            text-align: center;
+        }
+        .flex-box {
+            width: 500px;
+            border: 1px solid #000;
+            margin: 10px 100px;
+            display: -webkit-box;
+        }
+        .flex-item {
+            width: 50px;
+            background: #ff6600;
+            margin: 10px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<h1>基于display:-webkit-box;旧版子元素属性（大部分支持iOS 6.0-8.3 安卓2.1-4.4.4）</h1>
+<h2>1. -webkit-box-flex: &lt;number&gt; 设置子元素如何分配父容器剩余空间。</h2>
+<style>
+    .a1 .flex-item {
+        -webkit-box-flex: 0;
+    }
+
+    .a2 .flex-item:nth-child(1) {
+        -webkit-box-flex: 1;
+    }
+    .a2 .flex-item:nth-child(2) {
+        -webkit-box-flex: 2;
+    }
+    .a2 .flex-item:nth-child(3) {
+        -webkit-box-flex: 3;
+    }
+</style>
+<h3>1-1. -webkit-box-flex: 0; 默认为0，表示不可伸缩。</h3>
+<div class="flex-box a1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>1-2. -webkit-box-flex算法说明</h3>
+<h4>
+    flex-item盒子总宽度（加上margin）为50px + 10 * 2 = 70 <br>
+    flex-box宽度为500-2 = 498.   剩余宽度为  498 - 70 * 3 = 288 <br>
+    由样式里设置的比例1:2:3来看。这三个flex-item分别占了剩余空间的1/6, 2/6, 3/6。<br>
+    那么最终这三个flex-item宽度（不包括margin）分别为：<br>
+    50 + 288 * 1 / 6 = 98, <br>
+    50 + 288 * 2 / 6 = 146, <br>
+    50 + 288 * 3 / 6 = 194
+</h4>
+<div class="flex-box a2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<hr>
+<h2>2. -webkit-box-ordinal-group属性，定义子元素的显示次序，数值较低的元素显示在数值较高的元素前面，数值相同的时候显示顺序取决于代码顺序</h2>
+<style>
+    .b1 .flex-item:nth-child(1) {
+        -webkit-box-ordinal-group: 3;
+    }
+    .b1 .flex-item:nth-child(2) {
+        -webkit-box-ordinal-group: 2;
+    }
+    .b1 .flex-item:nth-child(3) {
+        -webkit-box-ordinal-group: 1;
+    }
+</style>
+<div class="flex-box b1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h2>3. -webkit-box-flex-group属性，定义子元素的所属组</h2>
+<style>
+    .c1 .flex-item:nth-child(1) {
+        -webkit-box-flex-group: 1;
+        -webkit-box-flex: 1;
+    }
+    .c1 .flex-item:nth-child(2) {
+        -webkit-box-flex-group: 2;
+        -webkit-box-flex: 1;
+    }
+    .c1 .flex-item:nth-child(3) {
+        -webkit-box-flex-group: 1;
+        -webkit-box-flex: 1;
+    }
+</style>
+<div class="flex-box c1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+</body>
+</html>
