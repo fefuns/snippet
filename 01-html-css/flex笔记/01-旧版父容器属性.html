@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex旧版父容器属性</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="minimal-ui,width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+        }
+        .flex-box {
+            width: 500px;
+            border: 1px solid #000;
+            margin: 10px 100px;
+            display: -webkit-box;
+        }
+        .flex-item {
+            width: 50px;
+            height: 50px;
+            background: #ff6600;
+            margin: 10px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<h1>基于display: -webkit-box;的旧版父容器属性（大部分支持iOS 6.0-8.3 安卓2.1-4.4.4）</h1>
+<h2>1. -webkit-box-pack属性 定义子元素主轴（水平方向）对齐方式</h2>
+<style>
+    .a1 {
+        -webkit-box-pack:start;
+    }
+    .a2 {
+        -webkit-box-pack: end;
+    }
+    .a3 {
+        -webkit-box-pack: center;
+    }
+    .a4 {
+        -webkit-box-pack: justify;
+    }
+</style>
+<h3>1-1. -webkit-box-pack:start 左对齐（默认）</h3>
+<div class="flex-box a1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>1-2. -webkit-box-pack: end 右对齐</h3>
+<div class="flex-box a2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>1-3. -webkit-box-pack: center 居中对齐</h3>
+<div class="flex-box a3">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>1-4. -webkit-box-pack: justify 居中对齐</h3>
+<div class="flex-box a4">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<hr>
+<h2>2. -wekbit-box-align属性 定义子元素交叉轴（垂直方向）对齐方式</h2>
+<style>
+    .b1 {
+        -webkit-box-align: start;
+    }
+    .b2 {
+        -webkit-box-align: end;
+    }
+    .b3 {
+        -webkit-box-align: center;
+    }
+    .b4 {
+        -webkit-box-align: baseline;
+    }
+    .b5 {
+        -webkit-box-align: stretch;
+    }
+</style>
+<h3>2-1. -webkit-box-align:start 子元素顶部对齐（默认）</h3>
+<h4>使用此属性时，父元素有高度效果更直观</h4>
+<div class="flex-box b1" style="height: 200px;">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>2-2. -webkit-box-align:end 子元素底部对齐</h3>
+<h4>使用此属性时，父元素有高度效果更直观</h4>
+<div class="flex-box b2" style="height: 200px;">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>2-3. -webkit-box-align:center 子元素居中对齐</h3>
+<h4>使用此属性时，父元素有高度效果更直观</h4>
+<div class="flex-box b3" style="height: 200px;">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>2-4. -webkit-box-align:baseline 子元素文本基线对齐</h3>
+<h4>使用此属性时，子元素文字行高不一致效果更直观</h4>
+<div class="flex-box b4">
+    <div class="flex-item" style="line-height: 30px;">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item" style="line-height: 70px;">3</div>
+</div>
+<h3>2-5. -webkit-box-align:stretch 子元素自适应父元素尺寸</h3>
+<h4>使用此属性时，父元素有固定高度。子元素高度不设定固定值效果更直观</h4>
+<div class="flex-box b5" style="height: 200px;">
+    <div class="flex-item" style="height: auto;">1</div>
+    <div class="flex-item" style="height: auto;">2</div>
+    <div class="flex-item" style="height: auto;">3</div>
+</div>
+<hr>
+<h2>3. -wekbit-box-direction属性 定义子元素显示方向</h2>
+<style>
+    .c1 {
+        -wekbit-box-direction: normal;
+    }
+    .c2 {
+        -webkit-box-direction: reverse;
+    }
+</style>
+<h3>3-1. -webkit-box-direction:normal 默认方向</h3>
+<div class="flex-box c1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>3-2. -webkit-box-direction:reserve 反方向</h3>
+<div class="flex-box c2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<hr>
+<h2>4. -wekbit-box-orient属性 定义子元素排列方式</h2>
+<style>
+    .d1 {
+        -webkit-box-orient: horizontal;
+    }
+    .d2 {
+        -webkit-box-orient: vertical;
+    }
+    .d3 {
+        -webkit-box-orient: inline-axis;
+    }
+    .d4 {
+        -webkit-box-orient: block-axis;
+    }
+</style>
+<h3>4-1. -wekbit-box-orient: horizontal; 从左到右（默认）</h3>
+<div class="flex-box d1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>4-2. -webkit-box-orient: vertical; 从上到下</h3>
+<div class="flex-box d2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>4-3. -webkit-box-orient: inline-axis; 子元素沿行轴排列(相当于display:inline-block)</h3>
+<div class="flex-box d3">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>4-4. -webkit-box-orient: block-axis; 子元素沿块轴排列（相当于diplay:block）</h3>
+<div class="flex-box d4">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<hr>
+</body>
+</html>
