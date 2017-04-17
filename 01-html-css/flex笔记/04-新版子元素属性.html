@@ -52,7 +52,7 @@
             flex-basis: &lt;number&gt;
             /* 设置伸缩基准值：默认 auto, 如果所有子元素的基准值之和大于剩余空间，则会根据每项设置的基准值，按比率伸缩剩余空间 */
 
-            flex: none | &lt;flex-grow&gt;  &lt;flex-shrink&gt; || flex-basis 此三项的缩写。none对应的为 0 0 auto;
+            flex: none | &lt;flex-grow&gt; 缺省值为1(会放大)  &lt;flex-shrink&gt; 缺省值为1 (会缩小) || flex-basis 缺省值为(0%) 此三项的缩写。none对应的为 0 0 auto;
 
             order: &lt;integer&gt;
             /* 设置子元素的显示顺序：默认0，必须为整数 值越小，越排前 */
@@ -62,7 +62,7 @@
         }
     </code>
 </pre>
-<h2>1. flex: &lt;number&gt; 设置子元素如何分配父容器剩余空间。</h2>
+<h2>1. flex: &lt;number&gt; 设置子元素如何分配父容器空间。</h2>
 <style>
     .a1 .flex-item {
         -webkit-flex: none;
@@ -203,12 +203,31 @@
     那么最终这三个flex-item宽度（不包括margin）分别为：<br>
     50 + 138 * 1 / 6 = 73, <br>
     100 + 138 * 2 / 6 = 146, <br>
-    150 + 138 * 3 / 6 = 219
+    150 + 138 * 3 / 6 = 219 <br>
+    附加：当不给子元素设置margin值的时候：
+    flex-basis在flex属性中不为0 的时候（包括值为auto,此时伸缩基准值等于自身内容宽度），flex-item将分配父容器flex-box的剩余空间 <br>
+    flex-basis在flex属性中等于0 的时候 flex-item将分配flex-box的所有空间。<br>
+    借助这种特性，可以直接给各项子元素设置flex:n 来按比例均分容器总宽度。<br>
+    比如分别给各项子元素设置 flex:1; flex:2; flex:3; <br>
+    那么最终这三个子项宽度分别为 498 * 1 /6 = 83;498 * 2 / 6 = 166;498 * 3 / 6 = 249. <br>
+    ！！！但是，如果在低版本的安卓，低版本的iOS系统中,对应的设置旧语法 -webkit-box-flex:1; -webkit-box-flex:2; -webkit-box-flex:3; <br>
+    得到的结果却是三个子项宽度分别为50 + (498 - 150) * 1 / 6 = 108;50 + (498 - 150) * 2 / 6 = 166;50 + (498 - 150) * 3 / 6 = 224;
+    坑爹啊！！！
 </h4>
 <div class="flex-box a6">
     <div class="flex-item">1</div>
     <div class="flex-item">2</div>
     <div class="flex-item">3</div>
+</div>
+<div class="flex-box a6">
+    <div class="flex-item" style="flex: 1;margin: 0;opacity:.5;">1</div>
+    <div class="flex-item" style="flex: 2;margin: 0;opacity:.75;">2</div>
+    <div class="flex-item" style="flex: 3;margin: 0;opacity:1;">3</div>
+</div>
+<div class="flex-box a6" style="display:-webkit-box;">
+    <div class="flex-item" style="-webkit-box-flex:1;margin:0;opacity:.5;">1</div>
+    <div class="flex-item" style="-webkit-box-flex:2;margin:0;opacity:.75;">2</div>
+    <div class="flex-item" style="-webkit-box-flex:3;margin:0;opacity:1;">3</div>
 </div>
 <h3>1-7. flex算法说明，当子元素较大（正规说法是子元素伸缩基准值总宽度加所有的margin值大于父元素宽度）时</h3>
 <h4>
