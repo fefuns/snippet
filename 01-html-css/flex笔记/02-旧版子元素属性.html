@@ -90,7 +90,9 @@
     <div class="flex-item">2</div>
     <div class="flex-item">3</div>
 </div>
+<hr>
 <h2>3. -webkit-box-flex-group属性，定义子元素的所属组</h2>
+<h4>三个都设置了-webkit-box-flex:1 本应该是等分的，将第二个子元素的-webkit-box-flex-group改成跟其他两个不同之后，就不会再等分了</h4>
 <style>
     .c1 .flex-item:nth-child(1) {
         -webkit-box-flex-group: 1;
