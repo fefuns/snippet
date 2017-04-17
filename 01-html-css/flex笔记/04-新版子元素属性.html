@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex新版子元素属性</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="minimal-ui,width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            word-break:break-all;
+        }
+        h1 {
+            text-align: center;
+        }
+        .flex-box {
+            width: 500px;
+            border: 1px solid #000;
+            margin: 10px 100px;
+            display: -webkit-flex;
+            display: flex;
+        }
+        .flex-item {
+            width: 50px;
+            background: #ff6600;
+            margin: 10px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 50px;
+        }
+        pre {
+            border: 1px solid #000;
+            background: #eeeeee;
+        }
+    </style>
+</head>
+<body>
+<h1>基于display:flex;新版子元素属性（支持安卓4.4+,iOS 9.0+, iOS7.0+ 需添加-webkit前缀）</h1>
+<pre>
+    <code>
+        .flex-item {
+            flex-grow: &lt;number&gt;
+            /* 设置子元素扩展比率（即放大）: 默认0，（即使有剩余空间也不放大，值为1则放大），可为浮点数。不允许负值 */
+
+            flex-shrink: &lt;number&gt;
+            /* 设置子元素收缩比率（即缩小）：默认1，（空间不足会缩小，值为0不缩小），可为浮点数。不允许负值 */
+
+            flex-basis: &lt;number&gt;
+            /* 设置伸缩基准值：默认 auto, 如果所有子元素的基准值之和大于剩余空间，则会根据每项设置的基准值，按比率伸缩剩余空间 */
+
+            flex: none | &lt;flex-grow&gt;  &lt;flex-shrink&gt; || flex-basis 此三项的缩写。none对应的为 0 0 auto;
+
+            order: &lt;integer&gt;
+            /* 设置子元素的显示顺序：默认0，必须为整数 值越小，越排前 */
+
+            align-self: auto | flex-start | flex-end | center | baseline | stretch;
+            /* 设置子元素单独在纵轴方向上的对齐方式：自动（默认）| 顶部对齐 | 底部对齐 | 居中对齐 | 文本基线对齐 | 上下对齐并铺满 */
+        }
+    </code>
+</pre>
+<h2>1. flex: &lt;number&gt; 设置子元素如何分配父容器剩余空间。</h2>
+<style>
+    .a1 .flex-item {
+        -webkit-flex: none;
+        flex: none;
+    }
+    .a2 .flex-item {
+        -webkit-flex: 1;
+        flex: 1;
+    }
+    .a3 .flex-item {
+        -webkit-flex: auto;
+        flex: auto;
+    }
+    .a4 .flex-item {
+        -webkit-flex: 0 auto;
+        flex: 0 auto;
+    }
+    .a5 .flex-item {
+        -webkit-flex: 1 0 auto;
+        flex: 1 0 auto;
+    }
+    .a6 .flex-item:nth-child(1) {
+        flex: 1 1 50px;
+    }
+    .a6 .flex-item:nth-child(2) {
+        flex: 2 2 100px;
+    }
+    .a6 .flex-item:nth-child(3) {
+        flex: 3 3 150px;
+    }
+
+    .a7 .flex-item:nth-child(1) {
+        flex: 1 1 100px;
+    }
+    .a7 .flex-item:nth-child(2) {
+        flex: 3 3 200px;
+    }
+    .a7 .flex-item:nth-child(3) {
+        flex: 2 2 300px;
+    }
+
+</style>
+<h3>1-1. flex: none; 即放大比率为0 缩小比率为0 伸缩比率auto，表示不可伸缩。</h3>
+<h4>对应的旧版语法为-webkit-box-flex: 0;</h4>
+<div class="flex-box a1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<div class="flex-box a1">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+    <div class="flex-item">4</div>
+    <div class="flex-item">5</div>
+    <div class="flex-item">6</div>
+    <div class="flex-item">7</div>
+    <div class="flex-item">8</div>
+    <div class="flex-item">9</div>
+</div>
+<h3>1-2. flex: 1; 即放大比率为1（会放大） 缩小比率为1（会缩小） 伸缩比率0%。子元素少时会均分父元素剩余空间，子元素多的时候会被压缩</h3>
+<h4>对应的旧版语法为-webkit-box-flex: 1;</h4>
+<div class="flex-box a2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<div class="flex-box a2">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+    <div class="flex-item">4</div>
+    <div class="flex-item">5</div>
+    <div class="flex-item">6</div>
+    <div class="flex-item">7</div>
+    <div class="flex-item">8</div>
+    <div class="flex-item">9</div>
+</div>
+<h3>1-3. flex: auto; 即放大比率为1（会放大） 缩小比率为1（会缩小） 伸缩比率auto。子元素少时会均分父元素剩余空间，子元素多的时候会被压缩</h3>
+<h4>对应的旧版语法为-webkit-box-flex: 1;</h4>
+<div class="flex-box a3">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<div class="flex-box a3">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+    <div class="flex-item">4</div>
+    <div class="flex-item">5</div>
+    <div class="flex-item">6</div>
+    <div class="flex-item">7</div>
+    <div class="flex-item">8</div>
+    <div class="flex-item">9</div>
+</div>
+<h3>1-4. flex: 0 auto; 即放大比率为0（不放大） 缩小比率为1（会缩小） 伸缩比率auto。子元素少时不会均分父元素剩余空间，子元素多的时候会被压缩</h3>
+<h4>旧版语法并不能实现此种效果，慎用</h4>
+<div class="flex-box a4">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<div class="flex-box a4">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+    <div class="flex-item">4</div>
+    <div class="flex-item">5</div>
+    <div class="flex-item">6</div>
+    <div class="flex-item">7</div>
+    <div class="flex-item">8</div>
+    <div class="flex-item">9</div>
+</div>
+<h3>1-5. flex: 1 0 auto; 即放大比率为1（会放大） 缩小比率为1（不缩小） 伸缩比率auto。子元素少时会均分父元素剩余空间，子元素多的时候不会被压缩</h3>
+<h4>旧版语法并不能实现此种效果，慎用</h4>
+<div class="flex-box a5">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<div class="flex-box a5">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+    <div class="flex-item">4</div>
+    <div class="flex-item">5</div>
+    <div class="flex-item">6</div>
+    <div class="flex-item">7</div>
+    <div class="flex-item">8</div>
+    <div class="flex-item">9</div>
+</div>
+<h3>1-6. flex算法说明，当子元素较小（正规说法是子元素伸缩基准值总宽度加所有的margin值小于父元素宽度）时</h3>
+<h4>
+    flex-item的伸缩基准值总宽度（加上margin值）为50 + 150 + 100 + 10 * 6 = 360 <br>
+    flex-box宽度为500-2 = 498. 剩余宽度为498 - 360 = 138 <br>
+    由样式里设置的比例1:2:3来看。这三个flex-item分别占了剩余空间的1/6, 2/6, 3/6。<br>
+    那么最终这三个flex-item宽度（不包括margin）分别为：<br>
+    50 + 138 * 1 / 6 = 73, <br>
+    100 + 138 * 2 / 6 = 146, <br>
+    150 + 138 * 3 / 6 = 219
+</h4>
+<div class="flex-box a6">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+<h3>1-7. flex算法说明，当子元素较大（正规说法是子元素伸缩基准值总宽度加所有的margin值大于父元素宽度）时</h3>
+<h4>
+    flex-item的伸缩基准值总宽度（加上margin值）为100 + 200 + 300 + 10 * 6 = 660 <br>
+    flex-box宽度为500-2 = 498. 溢出宽度为 660 - 498 = 162 <br>
+    由于设置了收缩因子，加权综合可得 100 * 1 + 200 * 3 + 300 * 2 = 1300<br>
+    那么最终这三个flex-item宽度（不包括margin）分别为：<br>
+    100 - (100 * 1 / 1300) * 162 = 87.53, <br>
+    200 - (200 * 3 / 1300) * 162 = 125.23, <br>
+    300 - (300 * 2 / 1300) * 162 = 225.23
+</h4>
+<div class="flex-box a7">
+    <div class="flex-item">1</div>
+    <div class="flex-item">2</div>
+    <div class="flex-item">3</div>
+</div>
+</body>
+</html>
