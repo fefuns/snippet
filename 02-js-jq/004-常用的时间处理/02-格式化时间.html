@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>格式化时间</title>
+</head>
+<body>
+<ul>
+    <li>不写参数的时候，默认是格式化当前时间为YYYY-MM-DD hh:mm:ss格式，比如：<span class="t1"></span></li>
+    <li>显示年月日，比如：<span class="t2"></span></li>
+    <li>显示时分秒，比如：<span class="t3"></span></li>
+    <li>显示年月，比如: <span class="t4"></span></li>
+    <li>总之可以自己去组合想显示什么</li>
+    <li>还可以自己去修改用什么连接年月日，比如： <span class="t5"></span>，再比如：<span class="t6"></span></li>
+    <li>还可以去格式化某个指定的时间，比如： <span class="t7"></span></li>
+</ul>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    // commons.js
+    var Utils = {};
+
+    /**
+     * 格式化时间
+     * @param {Object} date  时间对象 比如 date = new Date(1492675223449); 默认当前时间
+     * @param {String} output 输出格式默认 YYYY-MM-DD hh:mm:ss, 还可设置MM-DD 或者 hh:mm 或者YYYY年MM月DD日
+     */
+    Utils.dateFormat = function (dateObj, output) {
+        var date = dateObj || new Date();
+        var output = output || 'YYYY-MM-DD hh:mm:ss';
+        var Y = date.getFullYear();
+        var M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth + 1;
+        var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+        var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        var arr = [Y, M, D, h, m, s];
+
+        output.replace(/(Y+)|(M+)|(D+)|(h+)|(m+)|(s+)/g, function ($, $0, $1, $2, $3, $4, $5, $6) {
+            for (var i = 1; i < arguments.length; i++) {
+                if (arguments[0] == arguments[i]) {
+                    output = output.replace(arguments[0], arr[i - 1]);
+                }
+            }
+        });
+
+        return output;
+    }
+
+</script>
+<script>
+    $(function () {
+        $('.t1').text(Utils.dateFormat());
+
+        var date = new Date();
+        $('.t2').text(Utils.dateFormat(date, 'YYYY-MM-DD'));
+
+        $('.t3').text(Utils.dateFormat(date, 'hh:mm:ss'));
+
+        $('.t4').text(Utils.dateFormat(date, 'YYYY-MM'));
+
+        $('.t5').text(Utils.dateFormat(date, 'YYYY年MM月DD日'));
+
+        $('.t6').text(Utils.dateFormat(date, 'YYYY/MM/DD'));
+
+        var date2 = new Date(1402233166999);
+        $('.t7').text(Utils.dateFormat(date2));
+
+    });
+</script>
+</body>
+</html>

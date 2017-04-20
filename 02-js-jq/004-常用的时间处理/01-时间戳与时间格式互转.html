@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间戳与时间格式互转</title>
+    <style>
+        table {
+            width:100%;
+            border-collapse:collapse;
+            background: #eeeeee;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            text-align: center;
+        }
+        th,
+        td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th>
+                序号
+            </th>
+            <th>
+                需求
+            </th>
+            <th>
+                方法
+            </th>
+            <th>
+                结果
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                1
+            </td>
+            <td>
+                获取当前时间戳（精确到秒）
+            </td>
+            <td>
+                Date.parse(new Date());
+            </td>
+            <td>
+                <span class="time1"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2
+            </td>
+            <td>
+                获取当前时间戳（精确到豪秒）
+            </td>
+            <td>
+                new Date().getTime();
+            </td>
+            <td>
+                <span class="time2"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                3
+            </td>
+            <td>
+                获取当前时间戳（精确到豪秒）
+            </td>
+            <td>
+                new Date().valueOf();
+            </td>
+            <td>
+                <span class="time3"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                4
+            </td>
+            <td>
+                获取某个时间格式的时间戳（精确到秒）比如 2017-04-20 14:39:24
+            </td>
+            <td>
+                Date.parse(new Date('2017-04-20 14:39:24'));
+            </td>
+            <td>
+                <span class="time4"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script src="../../libs/jquery/jquery.js"></script>
+<script>
+// commons.js
+var Utils = {};
+
+</script>
+<script>
+    $(function () {
+        // 获取当前时间戳
+        var t1 = Date.parse(new Date());
+        $('.time1').text(t1);
+
+        var t2 = new Date().getTime();
+        $('.time2').text(t2);
+
+        var t3 = new Date().valueOf();
+        $('.time3').text(t3);
+
+        // 获取某个时间格式的时间戳比如 2017-04-20 14:39:24
+        var t4 = Date.parse(new Date('2017-04-20 14:39:24'));
+        $('.time4').text(t4);
+    });
+</script>
+</body>
+</html>
