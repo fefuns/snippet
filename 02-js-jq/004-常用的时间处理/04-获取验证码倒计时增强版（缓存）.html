@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="getcode" value="获取验证码">获取验证码</button>
+<script type="text/javascript" src="../../libs/jquery/jquery.js"></script>
+<script>
+    //防止页面刷新倒计时失效
+    /**
+     *
+     * @param {Object} obj  获取验证码按钮
+     */
+    function monitor(obj) {
+        var LocalDelay = getLocalDelay();
+        if(LocalDelay.time!=null){
+            var timeLine = parseInt((new Date().getTime() - LocalDelay.time) / 1000);
+            if (timeLine > LocalDelay.delay) {
+                console.log("过期");
+            } else {
+                _delay = LocalDelay.delay - timeLine;
+                obj.text(_delay+"秒后重新发送");
+                document.getElementById("getcode").disabled = true;
+                var timer = setInterval(function() {
+                    if (_delay > 1) {
+                        _delay--;
+                        obj.text(_delay+"秒后重新发送");
+                        setLocalDelay(_delay);
+                    } else {
+                        clearInterval(timer);
+                        obj.text("获取验证码");
+                        document.getElementById("getcode").disabled = false;
+                    }
+                }, 1000);
+            }
+        }
+    };
+
+
+    //倒计时效果
+    /**
+     *
+     * @param {Object} obj 获取验证码按钮
+     * @param {Function} callback  获取验证码接口函数
+     */
+    function countDown(obj, callback) {
+        if (obj.text() == "获取验证码") {
+            var _delay = 10;
+            var delay = _delay;
+            obj.text(_delay+"秒后重新发送");
+            document.getElementById("getcode").disabled = true;
+            var timer = setInterval(function() {
+                if (delay > 1) {
+                    delay--;
+                    obj.html(delay+"秒后重新发送");
+                    setLocalDelay(delay);
+                } else {
+                    clearInterval(timer);
+                    obj.text("获取验证码");
+                    document.getElementById("getcode").disabled = false;
+                }
+            }, 1000);
+
+            callback();
+        } else {
+            return false;
+        }
+    }
+    //设置setLocalDelay
+    function setLocalDelay(delay) {
+        //location.href作为页面的唯一标识，可能一个项目中会有很多页面需要获取验证码。
+        localStorage.setItem("delay_" + location.href, delay);
+        localStorage.setItem("time_" + location.href, new Date().getTime());
+    }
+
+    //getLocalDelay()
+    function getLocalDelay() {
+        var LocalDelay = {};
+        LocalDelay.delay = localStorage.getItem("delay_" + location.href);
+        LocalDelay.time = localStorage.getItem("time_" + location.href);
+        return LocalDelay;
+    }
+
+    $(function() {
+        var btn = document.getElementById("getcode");
+        //调用监听
+        monitor($(btn));
+        //点击click
+        btn.onclick = function() {
+            //倒计时效果  getCode回调函数  获取验证码api
+            countDown($(this), getCode);
+        };
+        function getCode() {
+            alert("验证码发送成功");
+        }
+    });
+</script>
+</body>
+</html>
